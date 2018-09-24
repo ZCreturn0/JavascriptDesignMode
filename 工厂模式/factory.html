@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ES5构造器</title>
+</head>
+<body>
+    <script>
+        function Student(name,grade,room){
+            this.name = name;
+            this.grade = grade;
+            this.room = room;
+        }
+
+        function StudentFactory(name,grade){
+            switch(grade){
+                case 1:
+                    return new Student(name,grade,'aaaaa');
+                    break;
+                case 2:
+                    return new Student(name,grade,'bbbbb');
+                    break;
+                case 3:
+                    return new Student(name,grade,'ccccc');
+                    break;
+                case 4:
+                    return new Student(name,grade,'ddddd');
+                    break;
+                case 5:
+                    return new Student(name,grade,'eeeee');
+                    break;
+                default:
+                    throw 'No such grade';
+            }
+        }
+
+        var s1 = StudentFactory('aa',2);
+        var s2 = StudentFactory('bb',5);
+    //    var s3 = StudentFactory('cc',6);
+
+        console.log(s1);
+        console.log(s2);
+    </script>
+</body>
+</html>

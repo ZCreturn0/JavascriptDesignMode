@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ES5构造器</title>
+</head>
+<body>
+    <table id="zc_table"></table>
+    <script>
+        function Student(name,age,score){
+            this.name = name;
+            this.age = age;
+            this.score = score;
+        }
+
+        //getLevel写在Student里,每次new会创建一个新的getLevel
+        //写在外面表示引用,不新创建
+        Student.prototype.getLevel = getLevel;
+
+        function getLevel(){
+            if(this.score < 60){
+                return 'c';
+            }
+            else if(this.score < 80){
+                return 'B';
+            }
+            else{
+                return 'A';
+            }
+        }
+
+        Student.prototype.mount = function(){
+            var tr = document.createElement('tr');
+            tr.innerHTML = `<td>${this.name}</td><td>${this.age}</td><td>${this.score}</td><td>${this.getLevel()}</td>`;
+            document.getElementById('zc_table').appendChild(tr);
+        }
+
+        var s1 = new Student('aa',12,68);
+        var s2 = new Student('bb',14,58);
+
+        s1.mount();
+        s2.mount();
+    </script>
+</body>
+</html>

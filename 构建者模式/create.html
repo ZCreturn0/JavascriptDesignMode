@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>ES5构造器</title>
+</head>
+<body>
+    <script>
+        function Student(name,age,score){
+            
+        }
+
+        function StudentBuilder(){
+            this.student = new Student();
+        }
+        StudentBuilder.prototype.setName = function(name){
+            this.student.name = name;
+        }
+        StudentBuilder.prototype.setAge = function(age){
+            this.student.age = age;
+        }
+        StudentBuilder.prototype.setScore = function(score){
+            if(score > 100 || score < 0){
+                throw 'Out of range';
+            }
+            this.student.score = score;
+        }
+        StudentBuilder.prototype.build = function(){
+            return this.student;
+        }
+
+        var sb = new StudentBuilder();
+        sb.setName('sb');
+        sb.setAge(12);
+        sb.setScore(60);
+        var s = sb.build();
+        console.log(s)
+    </script>
+</body>
+</html>

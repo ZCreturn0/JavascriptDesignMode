@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>构造器</title>
+</head>
+<body>
+    <script>
+        function Student(name,age,score){
+            this.name = name;
+            this.age = age;
+            this.score = score;
+        }
+
+        var s1 = new Student('aa',12,68);
+        var s2 = new Student('bb',14,58);
+
+        console.log(`${s1.name},${s1.age} years old,got ${s1.score} points.`);
+        console.log(`${s2.name},${s2.age} years old,got ${s2.score} points.`);
+    </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>单例模式</title>
+</head>
+<body>
+    <script>
+        function singleton(){
+
+        }
+        singleton.prototype.hello = function(){
+            console.log(11111);
+        }
+        singleton.getInstance = (function(){
+            let instance;
+            return function(){
+                if(instance == undefined){
+                    instance = new singleton();
+                }
+                return instance;
+            }
+        })();
+        let t1 = singleton.getInstance();
+        let t2 = singleton.getInstance();
+        console.log(t1);
+        console.log(t2);
+        console.log(t1 === t2);
+        t1.hello();
+    </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <p id="test">aaaaaaaaaaaaaaaaaaaaaaaaa</p>
+    <script>
+        // document.getElementById 内部 this 指向document
+        // var getId = document.getElementById;
+        // getId 内部 this 指向window
+        // getId('test').style.color = 'red';    
+
+
+
+        document.getElementById = (function(fun){
+            return function(){
+                // 使 document.getElementById 中 this 总是指向 document
+                return fun.apply(document,arguments);
+            }
+        })(document.getElementById);
+        var getId = document.getElementById;
+        getId('test').style.color = 'red';
+    </script>
+</body>
+</html>

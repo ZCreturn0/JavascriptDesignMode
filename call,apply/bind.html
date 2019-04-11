@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind</title>
+</head>
+<body>
+    <script>
+        Function.prototype.bind = function(obj){
+            var _this = this;
+            return function(){
+                return _this.apply(obj,arguments);
+            }
+        };
+        var aaa = {
+            name: 'aaaa'
+        }
+        function tell(){
+            console.log(this.name);
+        }
+        tell.bind(aaa)();
+    </script>
+</body>
+</html>

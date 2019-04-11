@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>克隆对象</title>
+</head>
+<body>
+    <script>
+        var Person = function(name){
+            this.name = name;
+        }    
+        Person.prototype.tellName = function(){
+            console.log(this.name);
+        }
+
+        var objectFactory = function(){
+            var obj = new Object();
+            var Constructor = arguments[0];                                                        // Person
+            obj.__proto__ = Constructor.prototype;                                                 // obj 变为 Person的实例
+            var ret = Constructor.apply(obj,[].slice.apply(arguments,[1,arguments.length]));       // obj 调用 Constructor(Person) 方法,实则调用自身的(constructors),传入参数
+            return typeof ret === 'object' ? ret : obj;
+        }
+
+        var p = objectFactory(Person,'aaa');
+        p.tellName();
+    </script>
+</body>
+</html>

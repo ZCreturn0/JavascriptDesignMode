@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>bind with params</title>
+</head>
+<body>
+    <script>
+        // [].slice.call() 用于将类数组转为数组
+        Function.prototype.bind = function(){
+            // arguments 指向调用 bind 的实例
+            // 原方法
+            var _this = this;
+            // 实例
+            var obj = [].shift.call(arguments);
+            // 参数,对应 '1'
+            var args = [].slice.call(arguments);
+            return function(){
+                // arguments 指向 返回的函数的参数,对应 '2,3,4',这里的 this 指向返回的函数,对应 func
+                return _this.apply(obj,[].concat.call(args,[].slice.call(arguments)));
+            }
+        }
+
+        var obj = {
+            name: 'aaa'
+        }
+
+        var func = (function(a,b,c,d){
+            console.log(this.name);
+            console.log(a,b,c,d);
+        }).bind(obj,1);
+
+        func(2,3,4);
+    </script>
+</body>
+</html>

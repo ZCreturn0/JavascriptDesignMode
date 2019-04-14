@@ -8,6 +8,13 @@
 </head>
 <body>
     <script>
+        // var loadImg = function(url){
+        //     var img = new Image();
+        //     img.src = url;
+        // }
+        // 存在的问题: 图片请求未完成,函数结束,img销毁
+
+        // 修改
         var loadImg = (function(){
             var imgs = [];
             return function(url){

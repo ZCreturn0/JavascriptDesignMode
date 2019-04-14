@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var muti = (function(){
+            // cache 私有变量
+            var cache = {};
+            // 私有函数
+            var caculate = function(){
+                var n = 1;
+                for(var i of [].slice.call(arguments)){
+                    n *= i;
+                }
+                return n;
+            }
+            return function(){
+                var args = Array.prototype.join.call(arguments,',');
+                // 判断是否存了 cache
+                if(args in cache){
+                    console.log('in cache');
+                    return cache[args];
+                }
+                // caculate 参数形式 (1,2,3,4), arguments 为类数组
+                return cache[args] =  caculate(...arguments);    // caculate.apply(null,arguments);
+            }
+        })();
+
+        console.log(muti(1,2,3,4));
+        console.log(muti(1, 2, 3, 4));
+        console.log(muti(1, 2, 3));
+    </script>
+</body>
+</html>

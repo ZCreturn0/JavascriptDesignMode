@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var cost = (function(){                             // 负责存储总数及总数计算方法
+            var money = 0;                                  // 用闭包存总数
+            return function(){                              // 返回函数接收参数,计算总数
+                for(var i=0;i<arguments.length;i++){
+                    money += arguments[i];
+                }
+                return money;                               // 返回总数
+            }
+        })();
+        var currying = function(fn){                        // 负责存储参数及不同参数个数情况下的处理
+            var args = [];                                  // 存储所有参数
+            return function(){
+                if(arguments.length != 0){                  // 参数不为空,存储参数
+                    [].push.apply(args,arguments);
+                }
+                else{                                       // 参数为空,把存储的参数传入fn(计算总值),并返回
+                    return fn.apply(this,args);
+                }
+            }
+        }
+        var caculate = currying(cost);
+        console.log(caculate(100));
+        console.log(caculate(100));
+        console.log(caculate(100));
+        console.log(caculate());
+    </script>
+</body>
+</html>

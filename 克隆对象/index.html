@@ -17,9 +17,9 @@
 
         var objectFactory = function(){
             var obj = new Object();
-            var Constructor = arguments[0];                                                        // Person
+            var Constructor = arguments[0];                                                        // Person(同时也是构造器)
             obj.__proto__ = Constructor.prototype;                                                 // obj 变为 Person的实例
-            var ret = Constructor.apply(obj,[].slice.apply(arguments,[1,arguments.length]));       // obj 调用 Constructor(Person) 方法,实则调用自身的(constructors),传入参数
+            var ret = Constructor.apply(obj,[].slice.apply(arguments,[1,arguments.length]));       // obj 调用 Constructor(Person) 方法,实则调用自身的(constructor),传入参数
             return typeof ret === 'object' ? ret : obj;
         }
 

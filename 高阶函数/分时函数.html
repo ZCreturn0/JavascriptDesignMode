@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var timeChunk = function(ary,fn,count,interval){
+            var len = ary.length;
+            var timer
+            var start = function(){
+                for(let i=0;i<Math.min(count,len);i++){
+                    let obj = ary.shift();
+                    fn(obj);
+                }
+            }
+            return function(){
+                timer = setInterval(() => {
+                    if (ary.length == 0) {
+                        return clearInterval(timer);
+                    }
+                    start();
+                }, interval);
+            }
+        }
+        var ary = [];
+        for(let i=0;i<1000;i++){
+            ary.push(i);
+        }
+        var run = timeChunk(ary,function(ele){
+            let div = document.createElement('div');
+            div.innerText = ele;
+            document.body.append(div);
+        },8,1000);
+        run();
+    </script>
+</body>
+</html>

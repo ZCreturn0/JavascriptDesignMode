@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var createDiv = (function(){
+            let instance;
+            var createDiv = function(html){
+                if(instance){
+                    return instance
+                }
+                // 调用过一次后后面的语句不执行,也就是第一次调用`html`参数用上了,后面都没用
+                this.html = html;
+                this.init();
+                return instance = this;
+            }
+            createDiv.prototype.init = function(){
+                var div = document.createElement('div');
+                div.innerHTML = this.html;
+                document.body.append(div);
+            }
+            return createDiv;
+        })();
+        var div1 = new createDiv('aaaa');
+        var div2 = new createDiv('bbbb');
+        console.log(div1 === div2)
+    </script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var performanceS = function(){};
+        performanceS.prototype.caculate = function(salary){
+            return salary * 4;
+        }
+        var performanceA = function () { };
+        performanceA.prototype.caculate = function (salary) {
+            return salary * 3;
+        }
+        var performanceB = function () { };
+        performanceB.prototype.caculate = function (salary) {
+            return salary * 2;
+        }
+
+        var Bonus = function(){
+            this.salary = null;
+            this.context = null;
+        }
+        Bonus.prototype.setSalary = function(salary){
+            this.salary = salary;
+        }
+        Bonus.prototype.setContext = function(context){
+            this.context = context;
+        }
+        Bonus.prototype.getBonus = function(){
+            return this.context.caculate(this.salary);
+        }
+
+        var bonus = new Bonus();
+        bonus.setSalary(10000);
+        bonus.setContext(new performanceS());
+        console.log(bonus.getBonus());
+
+        var bonus2 = new Bonus();
+        bonus2.setSalary(10000);
+        bonus2.setContext(new performanceA());
+        console.log(bonus2.getBonus());
+    </script>
+</body>
+</html>

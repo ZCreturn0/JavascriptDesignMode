@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 返回一个函数,这个返回的函数用来生成单例
+        var getSingle = function(fn){
+            var instance;
+            return function(){
+                return instance || (instance = fn.apply(this,arguments));
+            }
+        };
+        var createDiv = function(text){
+            var div = document.createElement('div');
+            div.innerText = text;
+            document.body.append(div);
+            return div;
+        }
+        var createSpan = function(text){
+            var span = document.createElement('span');
+            span.innerText = text;
+            document.body.append(span);
+            return span;
+        }
+        // 返回生成dialog的单例函数
+        var createDialogDiv = getSingle(createDiv);
+        // 返回生成alert的单例函数
+        var createAlertDiv = getSingle(createDiv);
+        var dialog1 = createDialogDiv('aaaa');
+        var dialog2 = createDialogDiv('bbbb');
+        console.log(dialog1 === dialog2);   // true
+    </script>
+</body>
+</html>

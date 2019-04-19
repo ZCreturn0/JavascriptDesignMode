@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width:100px;
+            height:100px;
+            text-align: center;
+            line-height: 100px;
+            position: absolute;
+        }
+        #linear{
+            background: rgb(101, 142, 231);
+            left: 100px;
+            top: 10px;
+        }
+        #easeIn{
+            background: rgb(247, 231, 91);
+            left: 100px;
+            top: 120px;
+        }
+    </style>
+</head>
+<body>
+    <div id="linear" class="box">linear</div>
+    <div id="easeIn" class="box">easeIn</div>
+    <script>
+        var tween = {
+            /**
+             * 
+             * @description 获取位置
+             * @param {Number} t 已运动的时间
+             * @param {Number} b 原始位置
+             * @param {Number} c 目标位置
+             * @param {Number} d 总运动时间
+             * @returns {Number} 当前位置
+             * 
+             */
+            linear: function(t, b, c, d){
+                return b + (t / d) * (c - b);
+            },
+            easeIn: function(t, b, c, d){
+                return c * (t /= d) * t + b; 
+            },
+            strongEaseIn: function(t, b, c, d){
+                return c * (t /= d) * t * t * t * t + b;
+            },
+            strongEaseOut: function(t, b, c, d){
+                return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+            },
+            sinEaseIn: function(t, b, c, d){
+                return c * (t /= d) * t * t + b; 
+            },
+            sinEaseOut: function(t, b, c, d){
+                return c * ((t = t / d - 1) * t * t + 1) + b; 
+            }
+        };
+        var Animation = function(dom){
+            this.dom = dom;
+            this.startTime = 0;
+
+            this.duration = 0;
+            this.startPos = 0;
+            this.endPos = 0;
+            this.property = null;
+            this.easing = null;
+        }
+        Animation.prototype.start = function(duration, endPos, property, easing, interval){
+            this.startTime = +new Date();
+            this.duration = duration;
+            this.startPos = this.dom.getBoundingClientRect()[property];
+            this.endPos = endPos;
+            this.property = property;
+            this.easing = tween[easing];
+            var _this = this;
+            var timer = setInterval(() => {
+                if(_this.step() === false){
+                    clearInterval(timer);
+                }
+            }, interval);
+        }
+        Animation.prototype.step = function(){
+            var now = +new Date();
+            if(this.startTime + this.duration > now){
+                var pos = this.easing(now - this.startTime, this.startPos, this.endPos, this.duration);
+                this.dom.style[this.property] = pos + 'px';
+                return true;
+            }
+            else{
+                this.dom.style[this.property] = this.endPos + 'px';
+                return false;
+            }
+        }
+
+        var linearDom = document.getElementById('linear');
+        var linearAnimation = new Animation(linearDom);
+        linearAnimation.start(10 * 1000, 500, 'left', 'linear', 10);
+
+        // var easeInDom = document.getElementById('easeIn');
+        // var easeIAnimation = new Animation(easeInDom);
+        // easeIAnimation.start(10 * 1000, 500, 'left', 'easeIn', 10);
+    </script>
+</body>
+</html>

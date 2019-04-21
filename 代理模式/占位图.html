@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var myImage = (function(){
+            var imageNode = document.createElement('img');
+            document.body.append(imageNode);
+
+            return {
+                setSrc: function(src){
+                    imageNode.src = src;
+                }
+            };
+        })();
+
+        var imageProxy = (function(){
+            var image = new Image();
+            image.onload = function(){
+                myImage.setSrc(this.src);
+            }
+            return {
+                setSrc: function(src){
+                    myImage.setSrc('file:///F:/%E5%89%8D%E7%AB%AF/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/images/loading.gif');
+                    image.src = src;
+                }
+            }
+        })();
+
+        imageProxy.setSrc('https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1555870855005&di=f31037449649ef9f01e4612d3685edd2&imgtype=0&src=http%3A%2F%2Fphotocdn.sohu.com%2F20130719%2FImg382095465.jpg');
+    </script>
+</body>
+</html>

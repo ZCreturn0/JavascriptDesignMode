@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <form action="#" id="regesterForm" method="post">
+        用户名: <input type="text" id="userName">
+        密码: <input type="password" id="pwd">
+        电话号码: <input type="text" id="phoneNumber">
+        <input type="submit" value="提交">
+    </form>
+    <script>
+        var strategies = {
+            isNotEmpty: function(value, errorMsg){
+                if(value == ''){
+                    return errorMsg;
+                }
+            },
+            minLength: function(value, length, errorMsg){
+                if(value.length < length){
+                    return errorMsg;
+                }
+            },
+            isPhoneNumber: function(value, errorMsg){
+                if(!/^(1[3|5|8][0-9]{9})$/.test(value)){
+                    return errorMsg;
+                }
+            }
+        }
+
+        var validator = function(){
+            this.cache = [];
+        }
+        validator.prototype.add = function(dom, rule, errorMsg){
+            var ary = rule.split(':');
+            this.cache.push(function(){      // 存的function
+                var strategy = ary.shift();  // 策略
+                ary.unshift(dom.value);
+                ary.push(errorMsg);
+                return strategies[strategy].apply(dom,ary);
+            });
+        }
+        validator.prototype.start = function(){
+            for(var i=0;i<this.cache.length;i++){
+                var errorMsg = this.cache[i]();
+                if(errorMsg){
+                    return errorMsg;
+                }
+            }
+        }
+
+        var validateFunc = function(){
+            var validate = new validator();
+            validate.add(regesterForm.userName, 'isNotEmpty', '用户名不能为空');
+            validate.add(regesterForm.pwd, 'minLength:6', '密码不能少于6个字符');
+            validate.add(regesterForm.phoneNumber, 'isPhoneNumber', '电话号码格式不对');
+
+            var errorMsg = validate.start();
+            return errorMsg;
+        }
+
+        var regesterForm = document.getElementById('regesterForm');
+        regesterForm.onsubmit = function(){
+            var errorMsg = validateFunc();
+            if(errorMsg){
+                console.log(errorMsg);
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>

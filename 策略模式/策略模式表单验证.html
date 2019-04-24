@@ -35,17 +35,21 @@
         var validator = function(){
             this.cache = [];
         }
-        validator.prototype.add = function(dom, rule, errorMsg){
-            var ary = rule.split(':');
-            this.cache.push(function(){      // 存的function
-                var strategy = ary.shift();  // 策略
-                ary.unshift(dom.value);
-                ary.push(errorMsg);
-                return strategies[strategy].apply(dom,ary);
-            });
+        validator.prototype.add = function(dom, rules){
+            var _this = this;
+            for(let rule of rules){
+                (function(){
+                    var ary = rule.strategy.split(':');
+                    _this.cache.push(function () {      // 存的function
+                        var strategy = ary.shift();     // 策略
+                        ary.unshift(dom.value);
+                        ary.push(rule.errorMsg);
+                        return strategies[strategy].apply(dom, ary);
+                })})(rule);
+            }
         }
         validator.prototype.start = function(){
-            for(var i=0;i<this.cache.length;i++){
+            for(let i=0;i<this.cache.length;i++){
                 var errorMsg = this.cache[i]();
                 if(errorMsg){
                     return errorMsg;
@@ -55,9 +59,18 @@
 
         var validateFunc = function(){
             var validate = new validator();
-            validate.add(regesterForm.userName, 'isNotEmpty', '用户名不能为空');
-            validate.add(regesterForm.pwd, 'minLength:6', '密码不能少于6个字符');
-            validate.add(regesterForm.phoneNumber, 'isPhoneNumber', '电话号码格式不对');
+            validate.add(regesterForm.userName, [
+                { strategy: 'isNotEmpty', errorMsg: '用户名不能为空'},
+                { strategy: 'minLength:6', errorMsg: '用户名不能少于6个字符'}
+            ]);
+            validate.add(regesterForm.pwd, [
+                { strategy: 'isNotEmpty', errorMsg: '密码不能为空' },
+                { strategy: 'minLength:12', errorMsg: '密码不能少于12个字符' }
+            ]);
+            validate.add(regesterForm.phoneNumber, [
+                { strategy: 'isNotEmpty', errorMsg: '电话号码不能为空' },
+                { strategy: 'isPhoneNumber', errorMsg: '电话号码格式不对' }
+            ]);
 
             var errorMsg = validate.start();
             return errorMsg;

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function mySet(){
+            var list = new Array(arguments);
+            return {
+                has: function(ele){
+                    return list.indexOf(ele) >= 0;
+                },
+                add: function(ele){
+                    if(!this.has(ele)){
+                        list.push(ele);
+                    }
+                },
+                toString: function(){
+                    console.log(list);
+                    return list.toString();
+                }
+            }
+        }
+        var set = new mySet();
+        set.add(1);
+        console.log(set.toString());
+        set.add(2);
+        console.log(set.toString());
+        set.add(1);
+        console.log(set.toString());
+    </script>
+</body>
+</html>

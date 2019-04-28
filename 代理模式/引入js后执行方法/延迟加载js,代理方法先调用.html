@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script src="./js/myLog.js"></script> -->
+</head>
+<body>
+    <script>
+        var cache = [];
+        var myLog = {
+            log: function(){
+                var args = arguments;
+                cache.push(function(){
+                    return myLog.log.apply(myLog,args);
+                });
+            }
+        }
+        // 调用 myLog.log(),往 cache 中存入一个 function,并附带参数
+        myLog.log(1);
+        myLog.log(1,2);
+        // 调用 cache 中存储的函数,并没有参数,调用 myLog.log()
+        // cache[0]();
+        // console.log(cache);
+
+        document.addEventListener('keydown',(e) => {
+            if(e.keyCode == 113){
+                var script = document.createElement('script'); 
+                script.onload = function(){
+                    for(var i=0; i<cache.length; i++){
+                        (function(i){
+                            cache[i]();
+                        })(i);
+                    }
+                }
+                script.src = './js/myLog.js';
+                document.getElementsByTagName('head')[0].appendChild(script);
+            }
+        },false);
+    </script>
+</body>
+</html>

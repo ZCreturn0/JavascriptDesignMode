@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 求乘积函数
+        function multi(){
+            console.log('use multi');
+            var result = 1;
+            for(let item of arguments){
+                result *= item;
+            }
+            return result;
+        }    
+        // 乘积代理
+        var multiProxy = (function(){
+            // cache 缓存结果
+            var cache = {};
+            return function(){
+                // 用','拼接所有参数
+                var paramString = [].join.apply(arguments,[',']);
+                // 缓存中有直接返回
+                if(cache[paramString]){
+                    console.log('use cache');
+                    return cache[paramString];
+                }
+                // 缓存中不存在则调用原始函数,并把结果存入缓存
+                else{
+                    return cache[paramString] = multi(...arguments);
+                }
+            }
+        })();
+        console.log(multiProxy(1,2,3));
+        console.log(multiProxy(3,2,1));
+        console.log(multiProxy(1,2,3));
+    </script>
+</body>
+</html>

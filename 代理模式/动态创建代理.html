@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var add = function(){
+            console.log('use add');
+            var result = 0;
+            for(let item of arguments){
+                result += item
+            }
+            return result;
+        }
+        
+        var multi = function(){
+            console.log('use multi');
+            var result = 1;
+            for(let item of arguments){
+                result *= item;
+            }
+            return result;
+        }
+
+        var proxyFactory = function(fn){
+            var cache = [];
+            return function(){
+                var paramString = [].join.apply(arguments,[',']);
+                if(cache[paramString]){
+                    console.log('use cache');
+                    return cache[paramString];
+                }
+                return cache[paramString] = fn.apply(null,arguments);
+            }
+        }
+
+        var addProxy = proxyFactory(add);
+        var multiProxy = proxyFactory(multi);
+        console.log(addProxy(1, 2, 3, 4));
+        console.log(addProxy(1, 2, 3, 4));
+        console.log(multiProxy(1, 2, 3, 4));
+        console.log(multiProxy(1, 2, 3, 4));
+    </script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 售楼部
+        var salesOffices = {};
+        // 订阅客户名单
+        salesOffices.clientList = [];
+        // 添加客户订阅
+        salesOffices.listen = function(fn){
+            this.clientList.push(fn);
+        }
+        // 触发事件
+        salesOffices.trigger = function(){
+            for(let fn of this.clientList){
+                fn.apply(null,arguments);
+            }
+        }
+
+        // 添加订阅
+        salesOffices.listen(function(){
+            console.log('面积:' + arguments[0] + '㎡');
+            console.log('价格:' + arguments[1] + 'W');
+        });
+        salesOffices.listen(function () {
+            console.log('面积:' + arguments[0] + '㎡');
+            console.log('价格:' + arguments[1] + 'W');
+        });
+
+        // 发布消息
+        salesOffices.trigger(88,200);
+    </script>
+</body>
+</html>

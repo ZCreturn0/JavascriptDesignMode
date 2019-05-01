@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var num = Math.random() * 100;
+        var lessThan10Obj = function () { 
+            if(num < 10){
+                return 'aaaa';
+            }
+            return false;
+        }
+
+        var between_10_And_30_Obj = function () {
+            if (num >= 10 && num < 30) {
+                return 'bbbb';
+            }
+            return false;
+        }
+
+        var between_30_And_100_Obj = function () {
+            if (num >= 30 && num < 100) {
+                return 'cccc';
+            }
+            return false;
+        }
+
+        var Iterator = function(){
+            for(var i=0; i<arguments.length; i++){
+                if(arguments[i]() != false){
+                    return arguments[i]();
+                }
+            }
+        }
+
+        console.log(num);
+        console.log(Iterator(lessThan10Obj, between_10_And_30_Obj, between_30_And_100_Obj));
+    </script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var event = {
+            clientList: {},
+            listen: function (tag, fn) {
+                if (!this.clientList[tag]) {
+                    this.clientList[tag] = [];
+                }
+                this.clientList[tag].push(fn);
+            },
+            trigger: function () {
+                var tag = [].shift.apply(arguments);
+                if (!this.clientList[tag] || this.clientList[tag].length == 0) {
+                    return;
+                }
+                for (let fn of this.clientList[tag]) {
+                    fn.apply(null, arguments);
+                }
+            }
+        }
+
+        function installEvent(obj){
+            for(var key in event){
+                obj[key] = event[key];
+            }
+        }
+
+        var salesOffices = {};
+        installEvent(salesOffices);
+        salesOffices.listen('88㎡', function () {
+                console.log('用户:小明');
+                console.log('订阅面积:88㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            salesOffices.listen('110㎡', function () {
+                console.log('用户:小红');
+                console.log('订阅面积:110㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            salesOffices.listen('110㎡', function () {
+                console.log('用户:小华');
+                console.log('订阅面积:110㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            salesOffices.listen('100㎡', function () {
+                console.log('用户:小李');
+                console.log('订阅面积:100㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+
+            salesOffices.trigger('88㎡', 200);
+            salesOffices.trigger('110㎡', 300);
+    </script>
+</body>
+</html>

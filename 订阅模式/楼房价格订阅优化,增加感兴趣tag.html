@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <script>
+            // 售楼部
+            var salesOffices = {};
+            // 订阅客户名单
+            // salesOffices.clientList = {
+            //     '88㎡': [],
+            //     '110㎡': []
+            // }
+            salesOffices.clientList = {};
+            // 添加客户订阅
+            salesOffices.listen = function (tag, fn) {
+                // 没有tag,新增一个tag
+                if(!this.clientList[tag]){
+                    this.clientList[tag] = [];
+                }
+                this.clientList[tag].push(fn);
+            }
+            // 触发事件
+            salesOffices.trigger = function () {
+                var tag = [].shift.apply(arguments);
+                // 无此tag的订阅者
+                if(!this.clientList[tag] || this.clientList[tag].length == 0){
+                    return;
+                }
+                for (let fn of this.clientList[tag]) {
+                    fn.apply(null, arguments);
+                }
+            }
+
+            // 添加订阅
+            salesOffices.listen('88㎡', function () {
+                console.log('用户:小明');
+                console.log('订阅面积:88㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            salesOffices.listen('110㎡',function () {
+                console.log('用户:小红');
+                console.log('订阅面积:110㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            salesOffices.listen('110㎡', function () {
+                console.log('用户:小华');
+                console.log('订阅面积:110㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+            // 未发布对应信息,不会收到消息
+            salesOffices.listen('100㎡', function () {
+                console.log('用户:小李');
+                console.log('订阅面积:100㎡');
+                console.log('价格:' + arguments[0] + 'W');
+                console.log('***********************');
+            });
+
+            // 发布消息
+            salesOffices.trigger('88㎡', 200);
+            salesOffices.trigger('110㎡', 300);
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var event = {
+            clientList: {},
+            listen: function(key,fn){
+                if(!this.clientList[key]){
+                    this.clientList[key] = [];
+                }
+                this.clientList[key].push(fn);
+            },
+            trigger: function(){
+                var key = [].shift.apply(arguments);
+                if(!this.clientList[key] || this.clientList[key].length == 0){
+                    return;
+                }
+                for(var fn of this.clientList[key]){
+                    fn.apply(null,arguments);
+                }
+            }
+        }
+        
+        var installEvent = function(obj){
+            for(var key in event){
+                obj[key] = event[key];
+            }
+        }
+
+        var login = {};
+        installEvent(login);
+
+        // 模拟访问请求
+        console.log('发起请求...');
+        setTimeout(() => {
+            var data = {
+                status: true,
+                msg: '登录成功',
+                userName: 'admin',
+                email: 'aa@aa.aa',
+                tel: '13056422222',
+                address: '算法对方告诉对方给第三方'
+            }
+            // 用户登录成功后发布事件即可
+            login.trigger('loginSuccess',data)
+        }, 3 * 1000);
+
+        // 只需维护各个模块即可
+        var header = (function(){
+            // 监听登录
+            login.listen('loginSuccess',function(data){
+                if(data.status){
+                    header.setUserName(data.userName);
+                }
+            });
+            return {
+                setUserName: function(userName){
+                    console.log(`用户${userName}已登录`);
+                }
+            }
+        })();
+
+        // 后序增加模块只需: 1.监听事件 2.维护自身模块
+        var address = (function () {
+            login.listen('loginSuccess', function (data) {
+                if (data.status) {
+                    address.setAddress(data.address);
+                }
+            });
+            return {
+                setAddress: function (address) {
+                    console.log(`发货地址:${address}`);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

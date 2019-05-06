@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+
+    <body>
+        <button id="add">click</button>
+        <span id="show">0</span>
+        <script>
+            var Event = (function () {
+                var clientList, listen, trigger, remove;
+                clientList = {};
+                listen = function (tag, fn) {
+                    if (!clientList[tag]) {
+                        clientList[tag] = [];
+                    }
+                    clientList[tag].push(fn);
+                };
+                trigger = function () {
+                    var tag = [].shift.apply(arguments);
+                    if (!clientList[tag] || clientList[tag].length == 0) {
+                        return;
+                    }
+                    for (let fn of clientList[tag]) {
+                        fn.apply(null, arguments);
+                    }
+                };
+                remove = function (key, fn) {
+                    var fns = clientList[key];
+                    if (!fns) {
+                        return false;
+                    }
+                    if (!fn) {
+                        clientList[key] = [];
+                    }
+                    else {
+                        for (var i = 0; i < fns.length; i++) {
+                            if (fns[i] === fn) {
+                                clientList[key].splice(i, 1);
+                            }
+                        }
+                    }
+                };
+                return {
+                    listen, trigger, remove
+                }
+            })();
+
+            var a = (function(){
+                var add = document.getElementById('add');
+                var count = 0;
+                add.onclick = function(){
+                    count++;
+                    Event.trigger('click',count);
+                }
+            })();
+            var b = (function(){
+                var show = document.getElementById('show');
+                Event.listen('click', function(){
+                    show.innerText = arguments[0];
+                })
+            })();
+        </script>
+    </body>
+
+</html>

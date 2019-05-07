@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="btn1">按钮1</button>
+    <button id="btn2">按钮2</button>
+    <button id="btn3">按钮3</button>
+    <script>
+        var btn1 = document.getElementById('btn1');
+        var btn2 = document.getElementById('btn2');
+        var btn3 = document.getElementById('btn3');
+
+        var setCommand = function(btn, command){
+            btn.onclick = function(){
+                command.execute();
+            }
+        }
+
+        var MenuBar = {
+            refresh: function(){
+                console.log('刷新菜单');
+            }
+        }
+        var SubMenu = {
+            add: function(){
+                console.log('添加菜单');
+            },
+            del: function(){
+                console.log('删除菜单');
+            }
+        }
+
+        var MenuBarCommand = function(receiver){
+            this.receiver = receiver;
+        }
+        MenuBarCommand.prototype.execute = function(){
+            this.receiver.refresh();
+        }
+        var AddMenuCommand = function(receiver){
+            this.receiver = receiver;
+        }
+        AddMenuCommand.prototype.execute = function(){
+            this.receiver.add();
+        }
+        var DelMenuCommand = function(receiver){
+            this.receiver = receiver;
+        }
+        DelMenuCommand.prototype.execute = function(){
+            this.receiver.del();
+        }
+
+        setCommand(btn1, new MenuBarCommand(MenuBar));
+        setCommand(btn2, new AddMenuCommand(SubMenu));
+        setCommand(btn3, new DelMenuCommand(SubMenu));
+    </script>
+</body>
+</html>

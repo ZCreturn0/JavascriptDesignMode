@@ -30,8 +30,10 @@
             }
         }
         var makeCommand = function(receiver, state){
-            return function(){
-                receiver[state]();
+            if(receiver[state]){
+                return function () {
+                    receiver[state]();
+                }
             }
         }
         var commandStack = [];
@@ -39,8 +41,10 @@
         document.addEventListener('keypress',function(e){
             var keyCode = e.keyCode;
             var command = makeCommand(player, commands[keyCode]);
-            command();
-            commandStack.push(command);
+            if(command){
+                command();
+                commandStack.push(command);
+            }
         },false);
         var replay = document.getElementById('replay');
         replay.onclick = function(){

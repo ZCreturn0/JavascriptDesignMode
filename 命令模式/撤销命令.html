@@ -6,6 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
         #ball{
             width: 50px;
             height: 50px;
@@ -21,6 +25,7 @@
     <p>输入目标的坐标:</p>
     <input type="number" id="pos">
     <button id="move">开始移动</button>
+    <button id="undo">撤销</button>
     <script>
         var tween = {
             /**
@@ -92,17 +97,28 @@
         var ball = document.getElementById('ball');
         var pos = document.getElementById('pos');
         var move = document.getElementById('move');
+        var undo = document.getElementById('undo');
         var MoveCommand = function(reveiver, pos){
             this.reveiver = reveiver;
             this.pos = pos;
         }
         MoveCommand.prototype.execute = function(){
             this.reveiver.start(2 * 1000, this.pos, 'left', 'linear', 10);
+            // 先运行start后,this.reveiver.property才有值
+            this.oldPos = this.reveiver.dom.getBoundingClientRect()[this.reveiver.property];
         }
+        MoveCommand.prototype.undo = function(){
+            this.reveiver.start(2 * 1000, this.oldPos, 'left', 'linear', 10);
+        }
+        
+        var animation = new Animation(ball);
+        var moveCommand;
         move.onclick = function(){
-            var animation = new Animation(ball);
-            var moveCommand = new MoveCommand(animation, pos.value);
+            moveCommand = new MoveCommand(animation, pos.value);
             moveCommand.execute();
+        }
+        undo.onclick = function(){
+            moveCommand.undo();
         }
     </script>
 </body>

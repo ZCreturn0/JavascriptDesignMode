@@ -92,9 +92,17 @@
         var ball = document.getElementById('ball');
         var pos = document.getElementById('pos');
         var move = document.getElementById('move');
+        var MoveCommand = function(reveiver, pos){
+            this.reveiver = reveiver;
+            this.pos = pos;
+        }
+        MoveCommand.prototype.execute = function(){
+            this.reveiver.start(2 * 1000, this.pos, 'left', 'linear', 10);
+        }
         move.onclick = function(){
             var animation = new Animation(ball);
-            animation.start(2 * 1000, pos.value, 'left', 'linear', 10);
+            var moveCommand = new MoveCommand(animation, pos.value);
+            moveCommand.execute();
         }
     </script>
 </body>

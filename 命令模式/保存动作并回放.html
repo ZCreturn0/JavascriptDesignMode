@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button id="replay">回放</button>
+    <script>
+        var commands = {
+            '119': 'jump',      //W
+            '115': 'crouch',    //S
+            '97': 'defence',    //A
+            '100': 'attack'     //D
+        }
+        var player = {
+            jump: function(){
+                console.log('跳跃');
+            },
+            crouch: function () {
+                console.log('下蹲');
+            },
+            defence: function () {
+                console.log('防御');
+            },
+            attack: function () {
+                console.log('攻击');
+            }
+        }
+        var makeCommand = function(receiver, state){
+            return function(){
+                receiver[state]();
+            }
+        }
+        var commandStack = [];
+
+        document.addEventListener('keypress',function(e){
+            var keyCode = e.keyCode;
+            var command = makeCommand(player, commands[keyCode]);
+            command();
+            commandStack.push(command);
+        },false);
+        var replay = document.getElementById('replay');
+        replay.onclick = function(){
+            console.log('------------------------------------');
+            for(var command of commandStack){
+                command();
+            }
+        }
+    </script>
+</body>
+</html>

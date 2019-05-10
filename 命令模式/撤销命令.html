@@ -105,7 +105,9 @@
         MoveCommand.prototype.execute = function(){
             this.reveiver.start(2 * 1000, this.pos, 'left', 'linear', 10);
             // 先运行start后,this.reveiver.property才有值
-            this.oldPos = this.reveiver.dom.getBoundingClientRect()[this.reveiver.property];
+            if(this.oldPos != this.reveiver.dom.getBoundingClientRect()[this.reveiver.property]){
+                this.oldPos = this.reveiver.dom.getBoundingClientRect()[this.reveiver.property];
+            }
         }
         MoveCommand.prototype.undo = function(){
             this.reveiver.start(2 * 1000, this.oldPos, 'left', 'linear', 10);

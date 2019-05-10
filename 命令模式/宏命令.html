@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var openDoorCommand = (function(){
+            return {
+                execute: function(){
+                    console.log('开门');
+                }
+            }
+        })()
+        var openComputerCommand = (function () {
+            return {
+                execute: function () {
+                    console.log('开电脑');
+                }
+            }
+        })()
+        var loginGameCommand = (function () {
+            return {
+                execute: function () {
+                    console.log('登游戏');
+                }
+            }
+        })()
+        var MacroCommand = (function(){
+            return {
+                commandList: [],
+                add: function(command){
+                    this.commandList.push(command);
+                },
+                execute: function(){
+                    for(var command of this.commandList){
+                        command.execute();
+                    }
+                }
+            }
+        })();
+        MacroCommand.add(openDoorCommand);
+        MacroCommand.add(openComputerCommand);
+        MacroCommand.add(loginGameCommand);
+        MacroCommand.execute();
+    </script>
+</body>
+</html>

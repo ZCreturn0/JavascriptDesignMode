@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var openDoorCommand = {
+            execute: function(){
+                console.log('开门');
+            }
+        }
+        var openComputerCommand = {
+            execute: function () {
+                console.log('开电脑');
+            }
+        }
+        var loginGameCommand = {
+            execute: function () {
+                console.log('登游戏');
+            }
+        }
+        var openTVCommand = {
+            execute: function () {
+                console.log('开电视');
+            }
+        }
+        var openAcCommand = {
+            execute: function () {
+                console.log('开空调');
+            }
+        }
+        var MicroCommand = function(){
+            return {
+                commandList: [],
+                add: function(command){
+                    this.commandList.push(command);
+                },
+                execute: function(){
+                    for(var command of this.commandList){
+                        command.execute();
+                    }
+                }
+            }
+        }
+        var gameCommand = MicroCommand();
+        gameCommand.add(openComputerCommand);
+        gameCommand.add(loginGameCommand);
+        var envCommand = MicroCommand();
+        envCommand.add(openTVCommand);
+        envCommand.add(openAcCommand);
+        var backHomeCommand = MicroCommand();
+        backHomeCommand.add(openDoorCommand);
+        backHomeCommand.add(gameCommand);
+        backHomeCommand.add(envCommand);
+        backHomeCommand.execute();
+    </script>
+</body>
+</html>

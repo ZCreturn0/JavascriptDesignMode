@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var Folder = function(folderName){
+            this.name = folderName;
+            this.fileList = [];
+        }    
+        Folder.prototype.add = function(file){
+            this.fileList.push(file);
+        }
+        Folder.prototype.scan = function(){
+            console.log('*******************************');
+            console.log(`扫描文件件"${this.name}"`);
+            for(var file of this.fileList){
+                file.scan();
+            }
+        }
+        var File = function(fileName){
+            this.name = fileName;
+        }
+        File.prototype.add = function(){
+            throw '文件必须添加到文件夹下';
+        }
+        File.prototype.scan = function(){
+            console.log(`${this.name} 已扫描`);
+        }
+
+        var travelPicture = new Folder('旅行照片');
+        var guoqinPicture = new Folder('国庆照片');
+        var lijiangPicture = new Folder('丽江照片');
+        var guilinPicture = new Folder('桂林照片');
+        var wuyiPicture = new Folder('五一照片');
+        var huangshanPicture = new Folder('黄山照片');
+
+        var pic_10_1_11 = new File('10_1_11');
+        var pic_10_1_12 = new File('10_1_12');
+        var pic_10_2_11 = new File('10_2_11');
+        lijiangPicture.add(pic_10_1_11);
+        lijiangPicture.add(pic_10_1_12);
+        guilinPicture.add(pic_10_2_11);
+        var pic_5_1_11 = new File('pic_5_1_11');
+        var pic_5_1_12 = new File('pic_5_1_12');
+        var pic_5_1_13 = new File('pic_5_1_13');
+        lijiangPicture.add(pic_5_1_11);
+        lijiangPicture.add(pic_5_1_12);
+        lijiangPicture.add(pic_5_1_13);
+
+        guoqinPicture.add(lijiangPicture);
+        guoqinPicture.add(guilinPicture);
+        wuyiPicture.add(huangshanPicture);
+        travelPicture.add(guoqinPicture);
+        travelPicture.add(wuyiPicture);
+        travelPicture.scan();
+    </script>
+</body>
+</html>

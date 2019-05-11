@@ -11,26 +11,41 @@
         var openDoorCommand = {
             execute: function(){
                 console.log('开门');
+            },
+            add: function(){
+                throw '子节点不能添加节点';
             }
         }
         var openComputerCommand = {
             execute: function () {
                 console.log('开电脑');
+            },
+            add: function () {
+                throw '子节点不能添加节点';
             }
         }
         var loginGameCommand = {
             execute: function () {
                 console.log('登游戏');
+            },
+            add: function () {
+                throw '子节点不能添加节点';
             }
         }
         var openTVCommand = {
             execute: function () {
                 console.log('开电视');
+            },
+            add: function () {
+                throw '子节点不能添加节点';
             }
         }
         var openAcCommand = {
             execute: function () {
                 console.log('开空调');
+            },
+            add: function () {
+                throw '子节点不能添加节点';
             }
         }
         var MicroCommand = function(){

@@ -10,16 +10,32 @@
     <script>
         var Folder = function(folderName){
             this.name = folderName;
+            this.parent = null;
             this.fileList = [];
         }    
         Folder.prototype.add = function(file){
+            file.parent = this;
             this.fileList.push(file);
         }
         Folder.prototype.scan = function(){
             console.log('*******************************');
-            console.log(`扫描文件件"${this.name}"`);
+            console.log(`扫描文件夹"${this.name}"`);
             for(var file of this.fileList){
                 file.scan();
+            }
+        }
+        Folder.prototype.remove = function(file){
+            if(!file.parent){
+                return;
+            }
+            for(var i=0;i<this.fileList.length;i++){
+                if(this.fileList[i] == file){
+                    this.fileList.splice(i,1);
+                }
+                // 递归查找文件夹下
+                else if(this.fileList[i].fileList){
+                    this.fileList[i].remove(file);
+                }
             }
         }
         var File = function(fileName){
@@ -48,15 +64,21 @@
         var pic_5_1_11 = new File('pic_5_1_11');
         var pic_5_1_12 = new File('pic_5_1_12');
         var pic_5_1_13 = new File('pic_5_1_13');
-        lijiangPicture.add(pic_5_1_11);
-        lijiangPicture.add(pic_5_1_12);
-        lijiangPicture.add(pic_5_1_13);
+        huangshanPicture.add(pic_5_1_11);
+        huangshanPicture.add(pic_5_1_12);
+        huangshanPicture.add(pic_5_1_13);
 
         guoqinPicture.add(lijiangPicture);
         guoqinPicture.add(guilinPicture);
         wuyiPicture.add(huangshanPicture);
         travelPicture.add(guoqinPicture);
         travelPicture.add(wuyiPicture);
+        travelPicture.scan();
+        console.log('★★★★★★★★★★★★★★★★★');
+        // travelPicture.remove(guoqinPicture);
+        // travelPicture.scan();
+        // console.log('★★★★★★★★★★★★★★★★★');
+        travelPicture.remove(pic_5_1_12);
         travelPicture.scan();
     </script>
 </body>

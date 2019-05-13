@@ -35,6 +35,20 @@
         }
         var coffee = new Coffee();
         coffee.init();
+
+        var Tea = function () { };
+        Tea.prototype = new makeDrink();
+        Tea.prototype.cook = function () {
+            console.log('泡茶');
+        }
+        Tea.prototype.putInCup = function () {
+            console.log('把茶倒入杯中');
+        }
+        Tea.prototype.addThings = function () {
+            console.log('加入茶叶');
+        }
+        var tea = new Tea();
+        tea.init();
     </script>
 </body>
 </html>

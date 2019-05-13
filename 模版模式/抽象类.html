@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var makeDrink = function(){};
+        makeDrink.prototype.boilWater = function(){
+            console.log('烧水');
+        };
+        makeDrink.prototype.cook = function(){};
+        makeDrink.prototype.putInCup = function(){};
+        makeDrink.prototype.addThings = function(){};
+        makeDrink.prototype.init = function(){
+            this.boilWater();
+            this.cook();
+            this.putInCup();
+            this.addThings();
+        }
+
+        var Coffee = function(){};
+        Coffee.prototype = new makeDrink();
+        Coffee.prototype.cook = function(){
+            console.log('泡咖啡');
+        }
+        Coffee.prototype.putInCup = function(){
+            console.log('把咖啡倒入杯中');
+        }
+        Coffee.prototype.addThings = function () {
+            console.log('加入牛奶');
+        }
+        var coffee = new Coffee();
+        coffee.init();
+    </script>
+</body>
+</html>

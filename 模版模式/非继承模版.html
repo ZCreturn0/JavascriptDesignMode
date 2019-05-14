@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var makeDrink = function(param){
+            var boilWater = function () {
+                console.log('烧水');
+            };
+            var cook = param.cook || function () {
+                throw new Error('必须传入cook方法');
+            };
+            var putInCup = param.putInCup || function () {
+                throw new Error('必须传入putInCup方法');
+            };
+            var addThings = param.addThings || function () {
+                throw new Error('必须传入addThings方法');
+            };
+            var customerWill = param.customerWill || function () {
+                throw new Error('必须传入customerWill方法');
+            };
+            var F = function(){};
+            F.prototype.init = function(){
+                boilWater();
+                cook();
+                putInCup();
+                if(customerWill()){
+                    addThings();
+                }
+            }
+            return F;
+        }
+        var Coffee = makeDrink({
+            cook: function () {
+                console.log('泡咖啡');
+            },
+            putInCup: function () {
+                console.log('把咖啡倒入杯中');
+            },
+            addThings: function () {
+                console.log('加入牛奶');
+            },
+            customerWill: function () {
+                return confirm('是否加调料?');
+            }
+        });
+        var coffee = new Coffee();
+        coffee.init();
+    </script>
+</body>
+</html>

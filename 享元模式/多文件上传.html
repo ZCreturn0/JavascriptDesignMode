@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        var id = 0;
+        window.startUpload = function(uploadType, files){
+            for(var file of files){
+                var uploadObj = new Upload(uploadType, file.name, file.size);
+                uploadObj.init(id++);
+            }
+        }
+        var Upload = function(uploadType, name, size){
+            this.uploadType = uploadType;
+            this.name = name;
+            this.size = size;
+            this.dom = null;
+        }
+        Upload.prototype.init = function(id){
+            var _this = this;
+            this.dom = document.createElement('div');
+            this.dom.innerHTML = `<div><span>文件名: ${this.name}, 文件大小: ${this.size}</span><button class="delFile">删除</button></div>`;
+            this.dom.getElementsByClassName('delFile')[0].onclick = function(){
+                _this.delFile();
+            }
+            document.body.append(this.dom);
+        }
+        Upload.prototype.delFile = function(){
+            if(this.size < 3000){
+                document.body.removeChild(this.dom);
+            }
+            else{
+                if(confirm('是否删除文件')){
+                    document.body.removeChild(this.dom);
+                }
+            }
+        }
+        startUpload('plugin',[
+            { name: '1.txt', size: 5000 },
+            { name: '2.html', size: 2000 },
+            { name: '3.js', size: 1000 }
+        ]);
+        startUpload('flash',[
+            { name: '4.css', size: 1500 },
+            { name: '5.vue', size: 4500 },
+            { name: '6.php', size: 1230 }
+        ]);
+    </script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="news">
+
+    </div>
+    <button id="pre">上一页</button>
+    <button id="next">下一页</button>
+    <script>
+        var flyWeight = (function(){
+            var created = [];
+            var newsDom = document.getElementsByClassName('news')[0];
+            var create = function(){
+                var div = document.createElement('div');
+                newsDom.append(div);
+                created.push(div);
+                return div;
+            }
+            return {
+                getDiv: function(){
+                    if(created.length < 5){
+                        return create();
+                    }
+                    else{
+                        var div = created.shift();
+                        created.push(div);
+                        return div;
+                    }
+                }
+            }
+        })();    
+        var currentIndex = 1;
+        var pre = document.getElementById('pre');
+        var next = document.getElementById('next');
+        pre.onclick = function(){
+            if(currentIndex == 1){
+                for(var i = 0; i < 5; i++){ 
+                    var dom=flyWeight.getDiv(); 
+                    dom.innerText=`第 ${currentIndex + i} 条新闻`; 
+                }
+            }
+            else{
+                currentIndex -= 5;
+                for(var i = 0; i < 5; i++){ 
+                    var dom=flyWeight.getDiv(); 
+                    dom.innerText=`第 ${currentIndex + i} 条新闻`; 
+                }
+            }
+        }
+        next.onclick = function(){
+            currentIndex += 5;
+            for(var i = 0; i < 5; i++){ 
+                var dom=flyWeight.getDiv(); 
+                dom.innerText=`第 ${currentIndex + i} 条新闻`; 
+            }
+        }
+        pre.click();
+    </script>
+</body>
+</html>

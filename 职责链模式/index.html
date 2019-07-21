@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+         * 订购手机,支付定金用户不受库存限制.都可购买到
+         * 付500定金用户获得100优惠券,200定金用户获得50优惠券
+         * 普通用户只有在库存数量不为0时才能购买
+         * orderType 0 付500定金用户  1 付200定金用户  2 普通用户
+         * pay: 是否字符定金,未支付按普通用户处理
+         * stock: 库存数量
+         */
+
+        // 使用职责链思想, 定义三个方法分别处理500,200,无定金用户
+        // 先用500定金方法处理,不符合再用200方法处理,不符合再为定金方法处理
+        
+        // 500定金
+        var pay500 = function(orderType, pay, stock){
+
+        }
+    </script>
+</body>
+</html>

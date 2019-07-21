@@ -12,9 +12,9 @@
          * 订购手机,支付定金用户不受库存限制.都可购买到
          * 付500定金用户获得100优惠券,200定金用户获得50优惠券
          * 普通用户只有在库存数量不为0时才能购买
-         * orderType 0 付500定金用户  1 付200定金用户  2 普通用户
-         * pay: 是否字符定金,未支付按普通用户处理
-         * stock: 库存数量
+         * orderType {number} 0 付500定金用户  1 付200定金用户  2 普通用户
+         * pay {boolean}: 是否字符定金,未支付按普通用户处理
+         * stock {number}: 库存数量
          */
 
         // 使用职责链思想, 定义三个方法分别处理500,200,无定金用户
@@ -22,8 +22,35 @@
         
         // 500定金
         var pay500 = function(orderType, pay, stock){
-
+            // 支付500的用户
+            if(orderType === 0 && pay){
+                console.log('已支付500定金,获得100优惠券,已购买到手机');
+            }
+            else{
+                pay200(orderType, pay, stock);
+            }
         }
+        var pay200 = function(orderType, pay, stock){
+            if(orderType === 1 && pay){
+                console.log('已支付200定金,获得50优惠券,已购买到手机');
+            }
+            else{
+                payNone(orderType, pay, stock);
+            }
+        }
+        var payNone = function(orderType, pay, stock){
+            if(orderType === 2){
+                if(stock > 0){
+                    console.log('已全价购买到手机');
+                }
+                else{
+                    console.log('库存已空,购买失败');
+                }
+            }
+        }
+        pay500(0, true, 0);
+        pay500(1, true, 0);
+        pay500(2, false, 0);
     </script>
 </body>
 </html>

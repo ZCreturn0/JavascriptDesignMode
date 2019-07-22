@@ -71,6 +71,9 @@
         pay500Chain.passRequest(1, true, 0);
         pay500Chain.passRequest(2, false, 0);
         pay500Chain.passRequest(2, false, 20);
+        // 使用职责链的优点:
+        // 降低各个处理方法之间的耦合度
+        // 如果后期需加入pay300处理方法,只需写处理逻辑及处理不了返回NOT_DEAL,然后重新配置结点关系即可
     </script>
 </body>
 </html>

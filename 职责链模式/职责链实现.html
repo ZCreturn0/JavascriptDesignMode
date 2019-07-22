@@ -74,6 +74,35 @@
         // 使用职责链的优点:
         // 降低各个处理方法之间的耦合度
         // 如果后期需加入pay300处理方法,只需写处理逻辑及处理不了返回NOT_DEAL,然后重新配置结点关系即可
+
+        // 异步职责链
+        // 为实现异步调用,为Chain添加一个next方法,用户可手动调用next方法来调用下个处理方法
+        Chain.prototype.next = function(){
+            return this.nextSuccessor && this.passRequest.apply(this.nextSuccessor, arguments);
+        }
+        var async1 = new Chain(function(){
+            var _this = this;
+            setTimeout(() => {
+                console.log('请求1');
+                // 请求完后手动调用下个方法
+                _this.next();
+            }, 1000);
+        });
+        var async2 = new Chain(function(){
+            var _this = this;
+            setTimeout(() => {
+                console.log('请求2');
+                _this.next();
+            }, 1500);
+        });
+        var async3 = new Chain(function(){
+            setTimeout(() => {
+                console.log('请求3');
+            }, 1200);
+        });
+        async1.setNextSuccessor(async2);
+        async2.setNextSuccessor(async3);
+        async1.passRequest();
     </script>
 </body>
 </html>

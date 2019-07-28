@@ -31,6 +31,11 @@
         Player.prototype.changeTeam(color){
             playerDirector.ReceiveMessage('playerChangeTeam', this, color);
         }
+        var playerFactory = function(name, teamColor){
+            var player = new Player(name, teamColor);
+            playerDirector.ReceiveMessage('playerAdded', player);
+            return player;
+        }
     </script>
 </body>
 </html>

@@ -24,11 +24,11 @@
             // 向中介发送消息,玩家已死亡
             playerDirector.ReceiveMessage('playerDead', this);
         }
-        Player.prototype.remove(){
+        Player.prototype.remove = function(){
             // 移除玩家
             playerDirector.ReceiveMessage('playerRemoved', this);
         }
-        Player.prototype.changeTeam(color){
+        Player.prototype.changeTeam(color) = function(){
             playerDirector.ReceiveMessage('playerChangeTeam', this, color);
         }
         var playerFactory = function(name, teamColor){
@@ -36,6 +36,33 @@
             playerDirector.ReceiveMessage('playerAdded', player);
             return player;
         }
+        // 中介
+        var playerDirector = (function(){
+            var players = {};
+            var oprations = {};
+            oprations.playerAdded =  function(player){
+                var color = player.teamColor;
+                players[color] = players[color] || [];
+                players[color].push(player);
+            }
+            oprations.playerRemoved = function(player){
+                var color = player.teamColor;
+                players[color] = players[color] || [];
+                for(var n in players[color]){
+                    if(p === players[color][i]){
+                        players[color].splice(i, 1);
+                    }
+                }
+            }
+            oprations.playerChangeTeam = function(player, teamColor){
+                var color = player.teamColor;
+                oprations.playerRemoved(player);
+                oprations.playerAdded(player);
+            }
+            oprations.dead = function(player){
+                var color = player.teamColor;
+            }
+        })();
     </script>
 </body>
 </html>

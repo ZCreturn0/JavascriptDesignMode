@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function Player(name, teamColor){
+            this.name = name;
+            this.teamColor = teamColor;
+            this.status = 'alive';
+        }
+        Player.prototype.win = function(){
+            console.log('win: ' + this.name);
+        }
+        Player.prototype.lose = function(){
+            console.log('lose: ' + this.name);
+        }
+        Player.prototype.dead = function(){
+            this.status = 'dead';
+            // 向中介发送消息,玩家已死亡
+            playerDirector.ReceiveMessage('playerDead', this);
+        }
+        Player.prototype.remove(){
+            // 移除玩家
+            playerDirector.ReceiveMessage('playerRemoved', this);
+        }
+        Player.prototype.changeTeam(color){
+            playerDirector.ReceiveMessage('playerChangeTeam', this, color);
+        }
+    </script>
+</body>
+</html>

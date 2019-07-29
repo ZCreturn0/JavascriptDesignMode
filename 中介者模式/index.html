@@ -31,6 +31,7 @@
             playerDirector.ReceiveMessage('playerRemoved', this);
         }
         Player.prototype.changeTeam = function(color){
+            console.log('玩家 ' + this.name + ' 从 ' + this.teamColor + ' 队换到了 ' + color + ' 队!');
             playerDirector.ReceiveMessage('playerChangeTeam', this, color);
         }
         var playerFactory = function(name, teamColor){
@@ -50,11 +51,13 @@
             operations.playerRemoved = function(player){
                 var color = player.teamColor;
                 players[color] = players[color] || [];
+                console.log(players[color])
                 for(var i in players[color]){
                     if(player === players[color][i]){
                         players[color].splice(i, 1);
                     }
                 }
+                console.log(players[color])
             }
             operations.playerChangeTeam = function(player, teamColor){
                 var color = player.teamColor;
@@ -118,10 +121,17 @@
         // player2.dead();
 
         // 队友掉线加阵亡胜利条件
-        player1.remove();
-        player2.remove();
+        // player1.remove();
+        // player2.remove();
+        // player3.dead();
+        // player4.dead();
+
+        // 更换队伍
+        player1.changeTeam('blue');
+        player7.dead();
         player3.dead();
         player4.dead();
+        player2.dead();
     </script>
 </body>
 </html>

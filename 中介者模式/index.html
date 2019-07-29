@@ -61,6 +61,19 @@
             }
             oprations.dead = function(player){
                 var color = player.teamColor;
+                var team = players[color];
+                var all_dead = true;
+                for(var t of team){
+                    if(t.status === 'alive'){
+                        all_dead = false;
+                        break;
+                    }
+                }
+                if(all_dead){
+                    for(var t of team){
+                        t.lose();
+                    }
+                }
             }
         })();
     </script>

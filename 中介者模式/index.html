@@ -28,7 +28,7 @@
             // 移除玩家
             playerDirector.ReceiveMessage('playerRemoved', this);
         }
-        Player.prototype.changeTeam(color) = function(){
+        Player.prototype.changeTeam = function(color){
             playerDirector.ReceiveMessage('playerChangeTeam', this, color);
         }
         var playerFactory = function(name, teamColor){
@@ -39,13 +39,13 @@
         // 中介
         var playerDirector = (function(){
             var players = {};
-            var oprations = {};
-            oprations.playerAdded =  function(player){
+            var operations = {};
+            operations.playerAdded = function(player){
                 var color = player.teamColor;
                 players[color] = players[color] || [];
                 players[color].push(player);
             }
-            oprations.playerRemoved = function(player){
+            operations.playerRemoved = function(player){
                 var color = player.teamColor;
                 players[color] = players[color] || [];
                 for(var n in players[color]){
@@ -54,12 +54,12 @@
                     }
                 }
             }
-            oprations.playerChangeTeam = function(player, teamColor){
+            operations.playerChangeTeam = function(player, teamColor){
                 var color = player.teamColor;
-                oprations.playerRemoved(player);
-                oprations.playerAdded(player);
+                operations.playerRemoved(player);
+                operations.playerAdded(player);
             }
-            oprations.dead = function(player){
+            operations.playerDead = function(player){
                 var color = player.teamColor;
                 var team = players[color];
                 var all_dead = true;
@@ -82,7 +82,36 @@
                     }
                 }
             }
+            var ReceiveMessage = function(){
+                var message = [].shift.call(arguments);
+                operations[message].apply(this, arguments);
+            }
+            return {
+                ReceiveMessage: ReceiveMessage
+            }
         })();
+        var player1 = new Player('aaa', 'red');
+        var player2 = new Player('bbb', 'red');
+        var player3 = new Player('ccc', 'red');
+        var player4 = new Player('ddd', 'red');
+        var player5 = new Player('111', 'blue');
+        var player6 = new Player('222', 'blue');
+        var player7 = new Player('333', 'blue');
+        var player8 = new Player('444', 'blue');
+        playerDirector.ReceiveMessage('playerAdded', player1);
+        playerDirector.ReceiveMessage('playerAdded', player2);
+        playerDirector.ReceiveMessage('playerAdded', player3);
+        playerDirector.ReceiveMessage('playerAdded', player4);
+        playerDirector.ReceiveMessage('playerAdded', player5);
+        playerDirector.ReceiveMessage('playerAdded', player6);
+        playerDirector.ReceiveMessage('playerAdded', player7);
+        playerDirector.ReceiveMessage('playerAdded', player8);
+        player1.dead();
+        player6.dead();
+        player3.dead();
+        player4.dead();
+        player8.dead();
+        player2.dead();
     </script>
 </body>
 </html>

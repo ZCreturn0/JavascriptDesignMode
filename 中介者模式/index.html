@@ -21,10 +21,12 @@
         }
         Player.prototype.dead = function(){
             this.status = 'dead';
+            console.log('玩家 ' + this.name + ' 已掉阵亡!');
             // 向中介发送消息,玩家已死亡
             playerDirector.ReceiveMessage('playerDead', this);
         }
         Player.prototype.remove = function(){
+            console.log('玩家 ' + this.name + ' 已掉线!');
             // 移除玩家
             playerDirector.ReceiveMessage('playerRemoved', this);
         }
@@ -48,8 +50,8 @@
             operations.playerRemoved = function(player){
                 var color = player.teamColor;
                 players[color] = players[color] || [];
-                for(var n in players[color]){
-                    if(p === players[color][i]){
+                for(var i in players[color]){
+                    if(player === players[color][i]){
                         players[color].splice(i, 1);
                     }
                 }
@@ -106,12 +108,20 @@
         playerDirector.ReceiveMessage('playerAdded', player6);
         playerDirector.ReceiveMessage('playerAdded', player7);
         playerDirector.ReceiveMessage('playerAdded', player8);
-        player1.dead();
-        player6.dead();
+
+        // 队友全部阵亡胜利条件
+        // player1.dead();
+        // player6.dead();
+        // player3.dead();
+        // player4.dead();
+        // player8.dead();
+        // player2.dead();
+
+        // 队友掉线加阵亡胜利条件
+        player1.remove();
+        player2.remove();
         player3.dead();
         player4.dead();
-        player8.dead();
-        player2.dead();
     </script>
 </body>
 </html>

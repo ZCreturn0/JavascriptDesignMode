@@ -73,6 +73,13 @@
                     for(var t of team){
                         t.lose();
                     }
+                    for(var c in players){
+                        if(c !== color){
+                            for(var p of players[c]){
+                                p.win();
+                            }
+                        }
+                    }
                 }
             }
         })();

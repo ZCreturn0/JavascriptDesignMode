@@ -51,17 +51,15 @@
             operations.playerRemoved = function(player){
                 var color = player.teamColor;
                 players[color] = players[color] || [];
-                console.log(players[color])
                 for(var i in players[color]){
                     if(player === players[color][i]){
                         players[color].splice(i, 1);
                     }
                 }
-                console.log(players[color])
             }
             operations.playerChangeTeam = function(player, teamColor){
-                var color = player.teamColor;
                 operations.playerRemoved(player);
+                player.teamColor = teamColor;
                 operations.playerAdded(player);
             }
             operations.playerDead = function(player){

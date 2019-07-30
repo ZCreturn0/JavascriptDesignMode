@@ -93,22 +93,22 @@
                 ReceiveMessage: ReceiveMessage
             }
         })();
-        var player1 = new Player('aaa', 'red');
-        var player2 = new Player('bbb', 'red');
-        var player3 = new Player('ccc', 'red');
-        var player4 = new Player('ddd', 'red');
-        var player5 = new Player('111', 'blue');
-        var player6 = new Player('222', 'blue');
-        var player7 = new Player('333', 'blue');
-        var player8 = new Player('444', 'blue');
-        playerDirector.ReceiveMessage('playerAdded', player1);
-        playerDirector.ReceiveMessage('playerAdded', player2);
-        playerDirector.ReceiveMessage('playerAdded', player3);
-        playerDirector.ReceiveMessage('playerAdded', player4);
-        playerDirector.ReceiveMessage('playerAdded', player5);
-        playerDirector.ReceiveMessage('playerAdded', player6);
-        playerDirector.ReceiveMessage('playerAdded', player7);
-        playerDirector.ReceiveMessage('playerAdded', player8);
+        var player1 = playerFactory('aaa', 'red');
+        var player2 = playerFactory('bbb', 'red');
+        var player3 = playerFactory('ccc', 'red');
+        var player4 = playerFactory('ddd', 'red');
+        var player5 = playerFactory('111', 'blue');
+        var player6 = playerFactory('222', 'blue');
+        var player7 = playerFactory('333', 'blue');
+        var player8 = playerFactory('444', 'blue');
+        // playerDirector.ReceiveMessage('playerAdded', player1);
+        // playerDirector.ReceiveMessage('playerAdded', player2);
+        // playerDirector.ReceiveMessage('playerAdded', player3);
+        // playerDirector.ReceiveMessage('playerAdded', player4);
+        // playerDirector.ReceiveMessage('playerAdded', player5);
+        // playerDirector.ReceiveMessage('playerAdded', player6);
+        // playerDirector.ReceiveMessage('playerAdded', player7);
+        // playerDirector.ReceiveMessage('playerAdded', player8);
 
         // 队友全部阵亡胜利条件
         // player1.dead();

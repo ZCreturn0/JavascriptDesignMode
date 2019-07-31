@@ -25,5 +25,18 @@
         <br><br><br>
         <button id="btn" disabled="disabled">请选择颜色并输入数量</button>
     </div>
+    <script>
+        var selectColor = document.getElementById('selectColor');
+        var num = document.getElementById('num');
+        var color = document.getElementById('color');
+        var number = document.getElementById('number');
+        var btn = document.getElementById('btn');
+        selectColor.onchange = function(){
+            if(this.value){
+                color.innerText = this.value;
+                num.value = "";
+            }
+        }
+    </script>
 </body>
 </html>
